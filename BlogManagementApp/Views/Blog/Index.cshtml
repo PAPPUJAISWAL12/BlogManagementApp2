@@ -1,0 +1,29 @@
+﻿@model IEnumerable<BlogPostEdit>
+<div class="flex flex-wrap gap-4">
+    @foreach(var b in Model)
+    {
+        <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">           
+                <img class="w-full mb-3 shadow-lg" src="~/BlogImage/@b.SectionImage" alt="Bonnie image" />
+                <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">@b.SectionHedding</h5>
+                <p class="text-sm text-gray-500 dark:text-gray-400">
+                    @b.SectionDescription
+                </p>
+                <div class="flex justify-center mt-4 md:mt-6">
+                    <a asp-action="Details"
+                        data-ajax="true" data-ajax-method="get"
+                        data-ajax-update="#GetDetails"
+                       data-modal-target="DetailModal" data-modal-toggle="DetailModal"
+                        class="text-white bg-blue-600 py-3 px-5 hover:bg-blue-800 rounded-lg">
+                      Details                
+                    </a>
+                   
+                </div>
+            </div>
+    }
+</div>
+
+<!-- Main modal -->
+<div id="DetailModal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-2xl max-h-full" id="GetDetails">
+    </div>
+</div>

@@ -1,0 +1,48 @@
+﻿@model BlogPostEdit
+@{
+    ViewData["Title"] = "BlogSystem";
+}
+<div class="grid grid-cols-2 gap-4">
+    <form asp-action="AddBlog" enctype="multipart/form-data" data-ajax="true" data-ajax-method="post" data-ajax-complete="BlogPostData">
+        <div class="text-red-400 " asp-validation-summary="ModelOnly"></div>
+        <div class="relative mb-2">
+            <input asp-for="SectionHedding" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+            <label asp-for="SectionHedding" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"></label>
+        </div>
+        <div class="relative mb-3">
+            <input asp-for="SectionDescription" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+            <label asp-for="SectionDescription" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"></label>
+        </div>
+        <div class="relative mb-3">
+            <input asp-for="PostDate" type="date" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+            <label asp-for="PostDate" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"></label>
+        </div>
+        <div class="relative mb-3">
+            <input asp-for="BlogFile" id="SelectFile"  class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+            <label asp-for="BlogFile" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"></label>
+        </div>
+        
+        <div class="mb-2">
+            <input type="submit" class="text-white py-2.5 px-5 bg-blue-600 hover:bg-blue-700 focus:ring-blue-300 focus:ring focus:outline-none rounded-lg" />
+        </div>
+    </form>
+    <div class="m-2">
+        <img src="" id="myImg" width="100" />
+    </div>
+</div>
+<script>
+    BlogPostData=function(e){
+        if (e.responseText = "success"){
+            alert("Blog post Success.");
+        }       
+    }
+
+    $('#SelectFile').on('change', (e) => {        
+        var file = e.target.files[0];      
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $('#myImg').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(file);           
+    });
+</script>

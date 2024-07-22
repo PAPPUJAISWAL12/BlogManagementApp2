@@ -1,0 +1,29 @@
+﻿@model IEnumerable<BlogPostEdit>
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "_StaticLayout";
+}
+<section class="max-w-4xl mx-auto">
+    @foreach(var i in Model)
+    {
+
+        <div class="p-4 mb-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+           
+
+            <div class="mb-2">
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <img src="~/BlogImage/@i.SectionImage" class="w-full" />
+                    <div class="w-full">
+                        <h1 class="font-sans font-bold">@i.SectionHedding</h1>
+                        <p class="float-end text-gray-400">@i.PostDate</p>
+                        <p class="mb-3 font-normal text-justify text-gray-700 dark:text-gray-400">
+                            @(i.SectionDescription.Length >= 20 ? i.SectionDescription.Substring(0, 20)+"..." : i.SectionDescription)
+                        </p>
+                    </div>
+                </div>
+            </div>
+                  </div>
+
+    }
+</section>
