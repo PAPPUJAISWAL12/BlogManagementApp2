@@ -16,5 +16,7 @@ namespace BlogManagementApp.Models
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; } = null!;
 
+        public string? EmailToken { get; set; }
+
     }
 }

@@ -22,7 +22,7 @@ namespace BlogManagementApp
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(o=>o.LoginPath="/Account/Login");
             builder.Services.AddSession(o =>
             {
-                o.IdleTimeout = TimeSpan.FromMinutes(1);
+                o.IdleTimeout = TimeSpan.FromMinutes(5);
                 o.Cookie.HttpOnly = true;
             });
             var app = builder.Build();

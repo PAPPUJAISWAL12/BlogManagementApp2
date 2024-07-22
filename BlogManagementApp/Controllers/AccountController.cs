@@ -146,8 +146,10 @@ namespace BlogManagementApp.Controllers
                         {
                             From = new MailAddress("jaiswalpappu873@gmail.com"),
                             Subject = "Forgot Password token",
-                            Body = $"token number:{token}"
+                            Body = $"<a href='https://localhost:44332/Account/ResetPassword/{_protector.Protect(token!)}' style='background-color:green; color:white; padding:10px; width:200px; border-radius:4px;'>ResetPasssword</a> <p>token number</p>:{token}",
+                            IsBodyHtml = true
                         };
+                        HttpContext.Session.SetString("email",user.EmailAddress);
                         m.To.Add(user.EmailAddress);
                         s.Send(m);
                        
@@ -179,7 +181,7 @@ namespace BlogManagementApp.Controllers
             if (token == e.EmailToken)
             {
                 var et = _protector.Protect(e.EmailToken!);
-                return RedirectToAction("ResetPassword", new { t = et });
+                return RedirectToAction("ResetPassword", new { id = et });
             }
             else
             {
@@ -187,16 +189,16 @@ namespace BlogManagementApp.Controllers
             }
            
         }
-
-        public IActionResult ResetPassword(string t)
+        [AllowAnonymous]
+        public IActionResult ResetPassword(string id)
         {
             try
             {
                 var token = HttpContext.Session.GetString("token");
-                var eToken = _protector.Unprotect(t);
+                var eToken = _protector.Unprotect(id);
                 if (token == eToken)
                 {
-                    return Json("test");
+                    return View(new ChangePassword { EmailToken=id});
                 }
                 else
                 {
@@ -207,6 +209,42 @@ namespace BlogManagementApp.Controllers
             {
                 return RedirectToAction("ForgotPassword");
             }        
+        }
+
+        [HttpPost]
+        public IActionResult ResetPassword(ChangePassword c)
+        {
+            var token = HttpContext.Session.GetString("token");
+            var eToken = _protector.Unprotect(c.EmailToken!);
+            if (token == eToken)
+            {
+                var email = HttpContext.Session.GetString("email");
+                  var us = _appContext.UserLists.Where(u => u.EmailAddress == email).FirstOrDefault();
+                    if (us != null)
+                    {
+                        if (c.NewPassword == c.ConfirmPassword)
+                        {
+                            us.UserPassword = _protector.Protect(c.NewPassword);
+                            _appContext.UserLists.Update(us);
+                            _appContext.SaveChanges();
+                            return RedirectToAction("Login", "Account");
+                        }
+                        else
+                        {
+                        ModelState.AddModelError("","Confirn Password does not matched. Please Try Again!.");
+                          return View(c);
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "failed");
+                        return View(c);
+                    }              
+            }
+            else
+            {
+                return RedirectToAction("ForgotPassword");
+            }
         }
     }
 }
